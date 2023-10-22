@@ -1,0 +1,27 @@
+@media (max-width: $breakpoint-tablet-landscape) {
+  // Home
+  .home-page {
+    .container {width: 100%;}
+    .gallery {padding: 0 30px;}
+  }
+
+  .hero {
+    .hero-title {font-size: 60px;}
+  }
+
+  // Filters
+  .filters {
+    gap: 20px;
+    padding-left: 30px;
+
+    .filter:nth-child(2),
+    .filter:nth-child(3) {margin-left:0;}
+    
+    .filter:nth-child(3) {margin-right: 0}
+  }
+
+  // Gallery
+  .gallery {
+    .gallery-item {height: 400px;}
+  }
+}
