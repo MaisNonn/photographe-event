@@ -412,24 +412,6 @@ h1 {
   transform: translateY(0) rotate(-45deg);
 }
 
-/* Fade-in */
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-/* Fade-out */
-@keyframes fade-out {
-  100% {
-    opacity: 0;
-  }
-  0% {
-    opacity: 1;
-  }
-}
 /* Chevron Down (Filters) */
 .i-chevron-down {
   z-index: -1;
