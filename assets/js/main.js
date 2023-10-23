@@ -1,72 +1,63 @@
-function getScrollbarWidth() {
-  const outer = document.createElement('div');
-  outer.style.visibility = 'hidden';
-  outer.style.overflow = 'scroll';
-  document.body.appendChild(outer);
-
-  const inner = document.createElement('div');
-  outer.appendChild(inner);
-
-  const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-  outer.parentNode.removeChild(outer);
-
-  return scrollbarWidth;
-}
-
+// Variables
+const body = document.body;
 
 // Main Menu
 document.addEventListener("DOMContentLoaded", function () {
-  const hamburgerButton = document.getElementById("hamburger");
+  const hamburger = document.getElementById("hamburger");
   const headerNav = document.getElementById("header-nav");
-  const bodyElement = document.body;
-  const scrollbarWidth = getScrollbarWidth();
 
-  hamburgerButton.addEventListener("click", function () {
+  hamburger.addEventListener("click", function () {
     // Toggle menu
     if (headerNav.style.display === "none" || headerNav.style.display === "") {
       headerNav.style.display = "flex";
-      bodyElement.style.overflow = "hidden"; // Bloquer le scroll
-      bodyElement.style.marginRight = scrollbarWidth + 'px'; // Compenser la largeur de la barre de scroll
+      body.classList.add("no-scroll"); // Bloquer le scroll
     } else {
       headerNav.style.display = "none";
-      bodyElement.style.overflow = "auto"; // Réactiver le scroll
-      bodyElement.style.marginRight = '0px'; // Retirer la compensation
+      body.classList.remove("no-scroll"); // Réactiver le scroll
     }
 
     // Toggle hamburger icon
-    if (hamburgerButton.classList.contains("is-opened")) {
-      hamburgerButton.classList.remove("is-opened");
-    } else {
-      hamburgerButton.classList.add("is-opened");
-    }
+    hamburger.classList.toggle("is-opened"); // Ajoute/retire la classe is-opened
   });
 
   // Événement de redimensionnement
   window.addEventListener("resize", function() {
     if (window.innerWidth > 680) {
       headerNav.removeAttribute("style");
-      bodyElement.removeAttribute("style");
-      hamburgerButton.classList.remove("is-opened");
+      body.style.marginRight = '0px';
+      hamburger.classList.remove("is-opened");
     }
   });
 });
 
-
-// Modal Contact
+// Initialisation de la modale "Contact"
+// Récupération de l'élément qui déclenche la modale à l'aide de sa classe
 const togglerModalNav = document.querySelector(".toggler-modal-nav");
+
+// Récupération de la modale elle-même à l'aide de son ID
 const modal = document.getElementById("modal");
-const body = document.body;
-// Open
+
+// Gestionnaire d'événement pour ouvrir la modale
+// Lorsqu'on clique sur le déclencheur
 togglerModalNav.onclick = function () {
+  // Modifie le style de la modale pour la rendre visible (en mode flex)
   modal.style.display = "flex";
-  body.style.overflow = "hidden";
+  
+  // Ajoute la classe "no-scroll" au body pour empêcher le défilement de la page lorsque la modale est ouverte
+  body.classList.add("no-scroll");
 }
-// Close
+
+// Gestionnaire d'événement pour fermer la modale
+// Lorsqu'on clique en dehors de celle-ci
 window.onclick = function (event) {
+  // Vérifie si la zone cliquée est la modale elle-même
+  // (ce qui signifie que l'utilisateur a cliqué en dehors du contenu de la modale)
   if (event.target == modal) {
+    // Modifie le style de la modale pour la cacher
     modal.style.display = "none";
-    body.style.overflow = "auto";
+    
+    // Supprime la classe "no-scroll" pour permettre à nouveau le défilement de la page
+    body.classList.remove("no-scroll");
   }
 }
 
@@ -76,29 +67,28 @@ const togglerModalSingle = document.getElementById('toggler-modal-single');
 
 if (togglerModalSingle) {
   togglerModalSingle.addEventListener('click', function () {
-    // Récupérez la valeur de la référence de la photo
-    const photoRefElement = document.querySelector('.single-photo-txt:nth-child(4)'); // Adaptez ceci si nécessaire
+    const photoRefElement = document.querySelector('.single-photo-txt:nth-child(4)'); // Récupère la valeur référence de la photo
     if (photoRefElement) {
       const photoRef = photoRefElement.textContent.split(' : ')[1].trim();
       const subjectField = document.querySelector('input[name="your-ref"]');
       if (subjectField) {
-        // Attribuez cette valeur au champ de formulaire
-        subjectField.value = photoRef;
+        subjectField.value = photoRef; // Attribution de cette valeur au champ de formulaire
       }
     }
 
     modal.style.display = "flex";
-    body.style.overflow = "hidden"; // Block scroll
+    body.classList.add("no-scroll");
   });
 }
 
-
 // Photo thumbnail nav (for single-photo)
 document.addEventListener('DOMContentLoaded', function () {
-  // Previous photo
   const prevPhotoLink = document.querySelector('.prev-photo a');
   const prevThumbnail = document.getElementById('prev-thumbnail');
+  const nextPhotoLink = document.querySelector('.next-photo a');
+  const nextThumbnail = document.getElementById('next-thumbnail');
 
+  // Previous photo
   if (prevPhotoLink && prevThumbnail) {
     prevPhotoLink.addEventListener('mouseover', function () {
       prevThumbnail.style.opacity = 1;
@@ -110,9 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Next photo
-  const nextPhotoLink = document.querySelector('.next-photo a');
-  const nextThumbnail = document.getElementById('next-thumbnail');
-
   if (nextPhotoLink && nextThumbnail) {
     nextPhotoLink.addEventListener('mouseover', function () {
       nextThumbnail.style.opacity = 1;
@@ -123,3 +110,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
